@@ -13,7 +13,7 @@
 #define button A0
 #define toleransi 10
 
-bool red,green,blue,black,yellow,white,unknown;
+bool red, green, blue, black, yellow, white, unknown;
 int Red = 0, Blue = 0, Green = 0; // RGB values
 int RED_C[3];
 int GREEN_C[3];
@@ -24,7 +24,7 @@ int WHITE_C[3];
 
 String REDstring, GREENstring, BLUEstring, BLACKstring, YELLOWstring, WHITEstring;
 int eepromOffset = 0;
-int newaddr, newaddr1,newaddr2,newaddr3,newaddr4,newaddr5;
+int newaddr, newaddr1, newaddr2, newaddr3, newaddr4, newaddr5;
 int read_button;
 
 int writeStringToEEPROM(int addrOffset, const String &strToWrite)
@@ -87,108 +87,115 @@ void GetColors()
 
 void Calibrate()
 {
-    printf("Calibrating...\n");
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print(" Calibraitng... ");
-    delay(1000);
+  printf("Calibrating...\n");
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(" Calibraitng... ");
+  delay(1000);
 
-    printf("For RED...\n");
-    lcd.setCursor(0, 0);
-    lcd.print("   Get RED...   ");
-    delay(3000);
-    GetColors();
-    printf("Get Colours...\n");
-    delay(3000);
-    RED_C[0] = Red;
-    RED_C[1] = Green;
-    RED_C[2] = Blue;
-    REDstring = String(RED_C[0]) + "@" + String(RED_C[1]) + "@" + String(RED_C[2]);
-    newaddr = writeStringToEEPROM(eepromOffset, REDstring);
-    Serial.println(REDstring);
-    delay(3000);
+  printf("For RED...\n");
+  lcd.setCursor(0, 0);
+  lcd.print("   Get RED...   ");
+  delay(3000);
+  GetColors();
+  printf("Get Colours...\n");
+  delay(3000);
+  RED_C[0] = Red;
+  RED_C[1] = Green;
+  RED_C[2] = Blue;
+  REDstring = String(RED_C[0]) + "@" + String(RED_C[1]) + "@" + String(RED_C[2]);
+  newaddr = writeStringToEEPROM(eepromOffset, REDstring);
+  Serial.println(REDstring);
+  delay(3000);
 
-    printf("For GREEN...\n");
-    lcd.setCursor(0, 0);
-    lcd.print("  Get GREEN...  ");
-    delay(3000);
-    GetColors();
-    printf("Get Colours...\n");
-    delay(3000);
-    GREEN_C[0] = Red;
-    GREEN_C[1] = Green;
-    GREEN_C[2] = Blue;
-    GREENstring = String(GREEN_C[0]) + "@" + String(GREEN_C[1]) + "@" + String(GREEN_C[2]);
-    newaddr1 = writeStringToEEPROM(newaddr, GREENstring);
-    Serial.println(GREENstring);
-    delay(3000);
+  printf("For GREEN...\n");
+  lcd.setCursor(0, 0);
+  lcd.print("  Get GREEN...  ");
+  delay(3000);
+  GetColors();
+  printf("Get Colours...\n");
+  delay(3000);
+  GREEN_C[0] = Red;
+  GREEN_C[1] = Green;
+  GREEN_C[2] = Blue;
+  GREENstring = String(GREEN_C[0]) + "@" + String(GREEN_C[1]) + "@" + String(GREEN_C[2]);
+  newaddr1 = writeStringToEEPROM(newaddr, GREENstring);
+  Serial.println(GREENstring);
+  delay(3000);
 
-    printf("For BLUE...\n");
-    lcd.setCursor(0, 0);
-    lcd.print("  Get BLUE...  ");
-    delay(3000);
-    GetColors();
-    printf("Get Colours...\n");
-    delay(3000);
-    BLUE_C[0] = Red;
-    BLUE_C[1] = Green;
-    BLUE_C[2] = Blue;
-    BLUEstring = String(BLUE_C[0]) + "@" + String(BLUE_C[1]) + "@" + String(BLUE_C[2]);
-    newaddr2 = writeStringToEEPROM(newaddr1, BLUEstring);
-    Serial.println(BLUEstring);
-    delay(3000);
+  printf("For BLUE...\n");
+  lcd.setCursor(0, 0);
+  lcd.print("  Get BLUE...  ");
+  delay(3000);
+  GetColors();
+  printf("Get Colours...\n");
+  delay(3000);
+  BLUE_C[0] = Red;
+  BLUE_C[1] = Green;
+  BLUE_C[2] = Blue;
+  BLUEstring = String(BLUE_C[0]) + "@" + String(BLUE_C[1]) + "@" + String(BLUE_C[2]);
+  newaddr2 = writeStringToEEPROM(newaddr1, BLUEstring);
+  Serial.println(BLUEstring);
+  delay(3000);
 
-    printf("For BLACK...\n");
-    lcd.setCursor(0, 0);
-    lcd.print("  Get BLACK...  ");
-    delay(3000);
-    GetColors();
-    printf("Get Colours...\n");
-    delay(3000);
-    BLACK_C[0] = Red;
-    BLACK_C[1] = Green;
-    BLACK_C[2] = Blue;
-    BLACKstring = String(BLACK_C[0]) + "@" + String(BLACK_C[1]) + "@" + String(BLACK_C[2]);
-    newaddr3 = writeStringToEEPROM(newaddr2, BLACKstring);
-    Serial.println(BLACKstring);
-    delay(3000);
+  printf("For BLACK...\n");
+  lcd.setCursor(0, 0);
+  lcd.print("  Get BLACK...  ");
+  delay(3000);
+  GetColors();
+  printf("Get Colours...\n");
+  delay(3000);
+  BLACK_C[0] = Red;
+  BLACK_C[1] = Green;
+  BLACK_C[2] = Blue;
+  BLACKstring = String(BLACK_C[0]) + "@" + String(BLACK_C[1]) + "@" + String(BLACK_C[2]);
+  newaddr3 = writeStringToEEPROM(newaddr2, BLACKstring);
+  Serial.println(BLACKstring);
+  delay(3000);
 
-    printf("For YELLOW...\n");
-    lcd.setCursor(0, 0);
-    lcd.print("  Get YELLOW...  ");
-    delay(3000);
-    GetColors();
-    printf("Get Colours...\n");
-    delay(3000);
-    YELLOW_C[0] = Red;
-    YELLOW_C[1] = Green;
-    YELLOW_C[2] = Blue;
-    YELLOWstring = String(YELLOW_C[0]) + "@" + String(YELLOW_C[1]) + "@" + String(YELLOW_C[2]);
-    newaddr4 = writeStringToEEPROM(newaddr3, YELLOWstring);
-    Serial.println(YELLOWstring);
-    delay(3000);
+  printf("For YELLOW...\n");
+  lcd.setCursor(0, 0);
+  lcd.print("  Get YELLOW...  ");
+  delay(3000);
+  GetColors();
+  printf("Get Colours...\n");
+  delay(3000);
+  YELLOW_C[0] = Red;
+  YELLOW_C[1] = Green;
+  YELLOW_C[2] = Blue;
+  YELLOWstring = String(YELLOW_C[0]) + "@" + String(YELLOW_C[1]) + "@" + String(YELLOW_C[2]);
+  newaddr4 = writeStringToEEPROM(newaddr3, YELLOWstring);
+  Serial.println(YELLOWstring);
+  delay(3000);
 
-    printf("For WHITE...\n");
-    lcd.setCursor(0, 0);
-    lcd.print("  Get WHITE...  ");
-    delay(3000);
-    GetColors();
-    printf("Get Colours...\n");
-    delay(3000);
-    WHITE_C[0] = Red;
-    WHITE_C[1] = Green;
-    WHITE_C[2] = Blue;
-    WHITEstring = String(WHITE_C[0]) + "@" + String(WHITE_C[1]) + "@" + String(WHITE_C[2]);
-    newaddr5 = writeStringToEEPROM(newaddr4, WHITEstring);
-    Serial.println(WHITEstring);
-    delay(3000);
+  printf("For WHITE...\n");
+  lcd.setCursor(0, 0);
+  lcd.print("  Get WHITE...  ");
+  delay(3000);
+  GetColors();
+  printf("Get Colours...\n");
+  delay(3000);
+  WHITE_C[0] = Red;
+  WHITE_C[1] = Green;
+  WHITE_C[2] = Blue;
+  WHITEstring = String(WHITE_C[0]) + "@" + String(WHITE_C[1]) + "@" + String(WHITE_C[2]);
+  newaddr5 = writeStringToEEPROM(newaddr4, WHITEstring);
+  Serial.println(WHITEstring);
+  delay(3000);
 
-
-    EEPROM.commit();
-    printf("Save data to EEPROM...\n");
-    delay(2000);
-    printf("done.\n");
-    delay(1000);
+  EEPROM.commit();
+  printf("Save data to EEPROM...\n");
+  delay(2000);
+  printf("Sendig Cakibrated data to Database...");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", REDstring) ? printf("Send data RED Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", GREENstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", BLUEstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", WHITEstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", BLACKstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", YELLOWstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  delay(2000);
+  printf("done.\n");
+  delay(1000);
 }
 
 void colour_result()
@@ -199,8 +206,13 @@ void colour_result()
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("   >> RED <<");
-    red = true; green = false; blue = false; black = false; yellow = false; white = false;
-    //Firebase.setString(firebaseData, "/Colour/result", "red") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+    red = true;
+    green = false;
+    blue = false;
+    black = false;
+    yellow = false;
+    white = false;
+    // Firebase.setString(firebaseData, "/Colour/result", "red") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
   }
 
   else if ((Red >= GREEN_C[0] - toleransi && Red <= GREEN_C[0] + toleransi) && (Green >= GREEN_C[1] - toleransi && Green <= GREEN_C[1] + toleransi) && (Blue >= GREEN_C[2] - toleransi && Blue <= GREEN_C[2] + toleransi)) // Same thing for Blue
@@ -209,45 +221,50 @@ void colour_result()
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("  >> GREEN <<   ");
-    red = false; green = true; blue = false; black = false; yellow = false; white = false;
-    //Firebase.setString(firebaseData, "/Colour/result", "green") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+    red = false;
+    green = true;
+    blue = false;
+    black = false;
+    yellow = false;
+    white = false;
+    // Firebase.setString(firebaseData, "/Colour/result", "green") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
   }
 
-   else if ((Red >= BLUE_C[0] - toleransi && Red <= BLUE_C[0] + toleransi) && (Green >= BLUE_C[1] - toleransi && Green <= BLUE_C[1] + toleransi) && (Blue >= BLUE_C[2] - toleransi && Blue <= BLUE_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
-   {
-     printf("Result ==> BLUE\n");
-     lcd.clear();
-     lcd.setCursor(0, 0);
-     lcd.print("   >> BLUE <<   ");
-     //Firebase.setString(firebaseData, "/Colour/result", "blue") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
-   }
+  else if ((Red >= BLUE_C[0] - toleransi && Red <= BLUE_C[0] + toleransi) && (Green >= BLUE_C[1] - toleransi && Green <= BLUE_C[1] + toleransi) && (Blue >= BLUE_C[2] - toleransi && Blue <= BLUE_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
+  {
+    printf("Result ==> BLUE\n");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("   >> BLUE <<   ");
+    // Firebase.setString(firebaseData, "/Colour/result", "blue") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+  }
 
-   else if ((Red >= BLACK_C[0] - toleransi && Red <= BLACK_C[0] + toleransi) && (Green >= BLACK_C[1] - toleransi && Green <= BLACK_C[1] + toleransi) && (Blue >= BLACK_C[2] - toleransi && Blue <= BLACK_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
-   {
-     printf("Result ==> BLACK\n");
-     lcd.clear();
-     lcd.setCursor(0, 0);
-     lcd.print("  >> BLACK <<   ");
-     //Firebase.setString(firebaseData, "/Colour/result", "black") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
-   }
+  else if ((Red >= BLACK_C[0] - toleransi && Red <= BLACK_C[0] + toleransi) && (Green >= BLACK_C[1] - toleransi && Green <= BLACK_C[1] + toleransi) && (Blue >= BLACK_C[2] - toleransi && Blue <= BLACK_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
+  {
+    printf("Result ==> BLACK\n");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("  >> BLACK <<   ");
+    // Firebase.setString(firebaseData, "/Colour/result", "black") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+  }
 
-   else if ((Red >= YELLOW_C[0] - toleransi && Red <= YELLOW_C[0] + toleransi) && (Green >= YELLOW_C[1] - toleransi && Green <= YELLOW_C[1] + toleransi) && (Blue >= YELLOW_C[2] - toleransi && Blue <= YELLOW_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
-   {
-     printf("Result ==> YELLOW\n");
-     lcd.clear();
-     lcd.setCursor(0, 0);
-     lcd.print("  >> YELLOW <<  ");
-     //Firebase.setString(firebaseData, "/Colour/result", "yellow") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
-   }
+  else if ((Red >= YELLOW_C[0] - toleransi && Red <= YELLOW_C[0] + toleransi) && (Green >= YELLOW_C[1] - toleransi && Green <= YELLOW_C[1] + toleransi) && (Blue >= YELLOW_C[2] - toleransi && Blue <= YELLOW_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
+  {
+    printf("Result ==> YELLOW\n");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("  >> YELLOW <<  ");
+    // Firebase.setString(firebaseData, "/Colour/result", "yellow") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+  }
 
-   else if ((Red >= WHITE_C[0] - toleransi && Red <= WHITE_C[0] + toleransi) && (Green >= WHITE_C[1] - toleransi && Green <= WHITE_C[1] + toleransi) && (Blue >= WHITE_C[2] - toleransi && Blue <= WHITE_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
-   {
-     printf("Result ==> WHITE\n");
-     lcd.clear();
-     lcd.setCursor(0, 0);
-     lcd.print("  >> WHITE <<   ");
-     //Firebase.setString(firebaseData, "/Colour/result", "white") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
-   }
+  else if ((Red >= WHITE_C[0] - toleransi && Red <= WHITE_C[0] + toleransi) && (Green >= WHITE_C[1] - toleransi && Green <= WHITE_C[1] + toleransi) && (Blue >= WHITE_C[2] - toleransi && Blue <= WHITE_C[2] + toleransi)) // Green it was a little tricky, you can do it using the same method as above (the lowest), but here I used a reflective object
+  {
+    printf("Result ==> WHITE\n");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("  >> WHITE <<   ");
+    // Firebase.setString(firebaseData, "/Colour/result", "white") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+  }
 
   else
   {
@@ -255,6 +272,6 @@ void colour_result()
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(" >> UNKNOWN <<  ");
-    //Firebase.setString(firebaseData, "/Colour/result", "unknown") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
+    // Firebase.setString(firebaseData, "/Colour/result", "unknown") ? printf("Send data color Succes\n") : printf("Failed send data colour\n");
   }
 }
