@@ -101,7 +101,7 @@ void setup(void)
       if (data_calibrate == 1 || read_button == 1024) // if button pressed
       {
         Calibrate();
-        Firebase.setInt(firebaseData, "/Colour/Calibrate", 0);
+        Firebase.setInt(firebaseData, "/Colour/Calibrate/state", 0);
       }
 
       if (millis() - prevMillis2 >= 1000)
