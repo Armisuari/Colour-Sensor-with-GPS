@@ -86,74 +86,90 @@ void setup(void)
 
   delay(2000);
 
-  while (true)
-  {
-    controll.run();
-    readGPS();
-    // delay(10);
-    display();
-
-    read_button = analogRead(button);
-
-    if (online == true)
+  if (online == true)
     {
-      printf(">>>>>>>>>>>>>>>>>DEVICE ONLINE MODE<<<<<<<<<<<<<<<<<<");
+      printf(">>>>>>>>>>>>>>>>>DEVICE ONLINE MODE<<<<<<<<<<<<<<<<<<\n");
 
-      if (data_calibrate == 1 || read_button == 1024) // if button pressed
+      controll.run();
+      readGPS();
+      // delay(10);
+      display();
+
+      read_button = analogRead(button);
+
+      while(1)
       {
-        Calibrate();
-        Firebase.setInt(firebaseData, "/Colour/Calibrate/state", 0);
-      }
-
-      if (millis() - prevMillis2 >= 1000)
-      {
-        prevMillis2 = millis();
-
-        if (WiFi.status() != WL_CONNECTED)
+        
+        menu();
+        
+        if (data_calibrate == 1 || read_button == 1024) // if button pressed
         {
-          connectwifi();
+          Calibrate();
+          Firebase.setInt(firebaseData, "/Colour/Calibrate/state", 0);
         }
 
-        // printf("\nread_button: %i\n", read_button);
-        // printf("data calibrate: %i\n", data_calibrate);
-        printf("\nGPS >> Lt: %f Lg: %f\n", gpsArray[0], gpsArray[1]);
-        printf("Red: %i Green: %i Blue: %i\n", Red, Green, Blue);
-        // colour_result();
-        String colour_read = String(Red) + "@" + String(Green) + "@" + String(Blue);
-        Firebase.setString(firebaseData, "/Colour/read", colour_read) ? printf("Send data RGB Succes\n") : printf("Failed send data RGB\n");
-        // Firebase.getString(firebaseData, "/Colour/hasil_online") ? hasil_online = firebaseData.stringData() : Serial.println(firebaseData.errorReason());
-
-        if (Firebase.getString(firebaseData, "/Colour/hasil_online"))
+        if (millis() - prevMillis2 >= 1000)
         {
-          hasil_online = firebaseData.stringData();
+          prevMillis2 = millis();
+
+          if (WiFi.status() != WL_CONNECTED)
+          {
+            connectwifi();
+          }
+
+          // printf("\nread_button: %i\n", read_button);
+          // printf("data calibrate: %i\n", data_calibrate);
+          printf("\nGPS >> Lt: %f Lg: %f\n", gpsArray[0], gpsArray[1]);
+          printf("Red: %i Green: %i Blue: %i\n", Red, Green, Blue);
+          // colour_result();
+          String colour_read = String(Red) + "@" + String(Green) + "@" + String(Blue);
+          Firebase.setString(firebaseData, "/Colour/read", colour_read) ? printf("Send data RGB Succes\n") : printf("Failed send data RGB\n");
+          // Firebase.getString(firebaseData, "/Colour/hasil_online") ? hasil_online = firebaseData.stringData() : Serial.println(firebaseData.errorReason());
+
+          if (Firebase.getString(firebaseData, "/Colour/hasil_online"))
+          {
+            hasil_online = firebaseData.stringData();
+          }
+          else
+          {
+            Serial.println(firebaseData.errorReason());
+          }
+
+          // printf("Result ==> %s\n", String(hasil_online));
+          Serial.print("Result ==> ");
+          Serial.println(hasil_online);
+          // lcd.clear();
+          lcd.setCursor(0, 0);
+          lcd.print("  >> " + hasil_online + " <<   ");
+
+          Firebase.getInt(firebaseData, "/Colour/Calibrate/state") ? data_calibrate = firebaseData.intData() : Serial.println(firebaseData.errorReason());
         }
-        else
+
+        if (millis() - prevMillis3 >= 5000)
         {
-          Serial.println(firebaseData.errorReason());
+          prevMillis3 = millis();
+          Firebase.setFloat(firebaseData, "/GPS/Latitude", gpsArray[0]) ? printf("Send data Latitude Succes\n") : printf("Failed send data Latitude\n");
+          Firebase.setFloat(firebaseData, "/GPS/Longitude", gpsArray[1]) ? printf("Send data Longitude Succes\n") : printf("Failed send data Longitude\n");
+          Firebase.setFloat(firebaseData, "/GPS/Num_Satelite", gpsArray[2]) ? printf("Send data Satelite Succes\n") : printf("Failed send data Satelite\n");
         }
-
-        // printf("Result ==> %s\n", String(hasil_online));
-        Serial.print("Result ==> ");
-        Serial.println(hasil_online);
-        // lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("  >> " + hasil_online + " <<   ");
-
-        Firebase.getInt(firebaseData, "/Colour/Calibrate/state") ? data_calibrate = firebaseData.intData() : Serial.println(firebaseData.errorReason());
-      }
-
-      if (millis() - prevMillis3 >= 5000)
-      {
-        prevMillis3 = millis();
-        Firebase.setFloat(firebaseData, "/GPS/Latitude", gpsArray[0]) ? printf("Send data Latitude Succes\n") : printf("Failed send data Latitude\n");
-        Firebase.setFloat(firebaseData, "/GPS/Longitude", gpsArray[1]) ? printf("Send data Longitude Succes\n") : printf("Failed send data Longitude\n");
-        Firebase.setFloat(firebaseData, "/GPS/Num_Satelite", gpsArray[2]) ? printf("Send data Satelite Succes\n") : printf("Failed send data Satelite\n");
       }
     }
-    else
-    {
-      printf(">>>>>>>>>>>>>>>>>DEVICE OFFLINE MODE<<<<<<<<<<<<<<<<<<");
 
+  else
+  { 
+    printf(">>>>>>>>>>>>>>>>>DEVICE OFFLINE MODE<<<<<<<<<<<<<<<<<<\n");
+
+    while(1)
+    {  
+      controll.run();
+
+      menu();
+      
+      readGPS();
+      // delay(10);
+      display();
+      read_button = analogRead(button);
+    
       if (/*data_calibrate == 1 ||*/ read_button == 1024) // if button pressed
       {
         Calibrate();
@@ -172,5 +188,18 @@ void setup(void)
     }
   }
 }
+
+void menu()
+      {
+        while (Serial.available())
+          {
+            String inChar = Serial.readString();
+            Serial.println(inChar);
+            if (inChar == "help\n") 
+              ESP.restart();
+            else if (inChar == "calibrate\n")
+              Calibrate();
+          }
+      }
 
 void loop() {}

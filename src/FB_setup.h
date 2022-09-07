@@ -5,7 +5,7 @@
 #define FIREBASE_AUTH "baV0cFwJF5aG62RHvG8o64B8pkYKgH1xk9aICxSU"
 // #define WIFI_SSID "Kost oliv lt.3"
 // #define WIFI_PASSWORD "tarianraya"
-#define WIFI_SSID "Delta"
+#define WIFI_SSID  "Delta"
 #define WIFI_PASSWORD "sandidelta"
 bool online = false;
 
@@ -40,11 +40,13 @@ void connectwifi(){
         }
 
         if (j>=3){
-          delay(300);
+          //printf("Gagal terhubung WIFI..\n");
+          Serial.println("\nGagal terhubung WIFI...");
+          delay(2000);
           lcd.setCursor(0,0);
           lcd.print("  OFFLINE MODE  ");
           delay(2000);
-          Serial.println(">>>>>> Mode Offline <<<<<<<");
+//          Serial.println(">>>>>> Mode Offline <<<<<<<");
           break;
         }
         
@@ -58,6 +60,30 @@ void connectwifi(){
       Serial.print("Connected with IP: ");
       Serial.println(WiFi.localIP());
       Serial.println();
+
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("  Connected to  ");
+      lcd.setCursor(0,1);
+      lcd.print(WiFi.localIP());
+      delay(1000);
+      lcd.clear();
+
+      Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+      Firebase.reconnectWiFi(true);
+
+      // Set the size of WiFi rx/tx buffers in the case where we want to work with large data.
+      firebaseData.setBSSLBufferSize(1024, 1024);
+
+      // Set the size of HTTP response buffers in the case where we want to work with large data.
+      firebaseData.setResponseSize(1024);
+
+      // Set database read timeout to 1 minute (max 15 minutes)
+      Firebase.setReadTimeout(firebaseData, 1000 * 60);
+      // tiny, small, medium, large and unlimited.
+      // Size and its write timeout e.g. tiny (1s), small (10s), medium (30s) and large (60s).
+      Firebase.setwriteSizeLimit(firebaseData, "tiny");
+    
     } else{
       online = false;
     }
@@ -66,28 +92,6 @@ void connectwifi(){
 void IoT_cloud()
 {
     connectwifi();
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("  Connected to  ");
-    lcd.setCursor(0,1);
-    lcd.print(WiFi.localIP());
-    delay(1000);
-    lcd.clear();
-
-    Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
-    Firebase.reconnectWiFi(true);
-
-    // Set the size of WiFi rx/tx buffers in the case where we want to work with large data.
-    firebaseData.setBSSLBufferSize(1024, 1024);
-
-    // Set the size of HTTP response buffers in the case where we want to work with large data.
-    firebaseData.setResponseSize(1024);
-
-    // Set database read timeout to 1 minute (max 15 minutes)
-    Firebase.setReadTimeout(firebaseData, 1000 * 60);
-    // tiny, small, medium, large and unlimited.
-    // Size and its write timeout e.g. tiny (1s), small (10s), medium (30s) and large (60s).
-    Firebase.setwriteSizeLimit(firebaseData, "tiny");
 }
 
 void printResult(FirebaseData &data)
