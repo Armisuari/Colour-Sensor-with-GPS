@@ -188,11 +188,11 @@ void Calibrate()
   delay(2000);
   printf("Sendig Cakibrated data to Database...");
   Firebase.setString(firebaseData, "/Colour/Calibrate/RED", REDstring) ? printf("Send data RED Succes\n") : printf("Failed send data colour\n");
-  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", GREENstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
-  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", BLUEstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
-  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", WHITEstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
-  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", BLACKstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
-  Firebase.setString(firebaseData, "/Colour/Calibrate/RED", YELLOWstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/GREEN", GREENstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/BLUE", BLUEstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/WHITE", WHITEstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/BLACK", BLACKstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
+  Firebase.setString(firebaseData, "/Colour/Calibrate/YELLOW", YELLOWstring) ? printf("Send data GREEN Succes\n") : printf("Failed send data colour\n");
   delay(2000);
   printf("done.\n");
   delay(1000);
