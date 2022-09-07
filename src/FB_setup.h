@@ -5,8 +5,8 @@
 #define FIREBASE_AUTH "baV0cFwJF5aG62RHvG8o64B8pkYKgH1xk9aICxSU"
 // #define WIFI_SSID "Kost oliv lt.3"
 // #define WIFI_PASSWORD "tarianraya"
-#define WIFI_SSID "Pi_admin"
-#define WIFI_PASSWORD "admin123"
+#define WIFI_SSID "Delta"
+#define WIFI_PASSWORD "sandidelta"
 bool online = false;
 
 FirebaseData firebaseData;

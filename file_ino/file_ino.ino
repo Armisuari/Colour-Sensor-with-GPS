@@ -7,7 +7,7 @@
 #include <Thread.h>
 #include <ThreadController.h>
 
-//ThreadController that will controll all threads
+// ThreadController that will controll all threads
 ThreadController controll = ThreadController();
 
 Thread Thread1 = Thread();
@@ -25,8 +25,8 @@ void setup(void)
   mySerial.begin(9600);
   EEPROM.begin(512);
 
-  // lcd.init();
-  lcd.begin();
+  lcd.init();
+  // lcd.begin();
   lcd.backlight();
 
   lcd.setCursor(0, 0);
@@ -75,8 +75,8 @@ void setup(void)
 
   IoT_cloud();
 
-//  Thread1.onRun(readGPS);
-//  Thread1.setInterval(10);
+  //  Thread1.onRun(readGPS);
+  //  Thread1.setInterval(10);
 
   Thread2.onRun(GetColors);
   Thread2.setInterval(100);
@@ -90,77 +90,85 @@ void setup(void)
   {
     controll.run();
     readGPS();
-    //delay(10);
+    // delay(10);
     display();
 
     read_button = analogRead(button);
 
-    if (online == true){
+    if (online == true)
+    {
+      printf(">>>>>>>>>>>>>>>>>DEVICE ONLINE MODE<<<<<<<<<<<<<<<<<<");
 
       if (data_calibrate == 1 || read_button == 1024) // if button pressed
-        {
-          Calibrate();
-          Firebase.setInt(firebaseData,  "/Colour/Calibrate", 0);
-        }
+      {
+        Calibrate();
+        Firebase.setInt(firebaseData, "/Colour/Calibrate/state", 0);
+      }
 
       if (millis() - prevMillis2 >= 1000)
-        {
-          prevMillis2 = millis();
+      {
+        prevMillis2 = millis();
 
-         if(WiFi.status() != WL_CONNECTED){
+        if (WiFi.status() != WL_CONNECTED)
+        {
           connectwifi();
         }
-      
-          //printf("\nread_button: %i\n", read_button);
-          //printf("data calibrate: %i\n", data_calibrate);
-          printf("\nGPS >> Lt: %f Lg: %f\n", gpsArray[0], gpsArray[1]);
-          printf("Red: %i Green: %i Blue: %i\n", Red, Green, Blue);
-          //colour_result();
-          String colour_read = String(Red) + "@" + String(Green) + "@" + String(Blue);
-          Firebase.setString(firebaseData, "/Colour/read", colour_read) ? printf("Send data RGB Succes\n") : printf("Failed send data RGB\n");
-          //Firebase.getString(firebaseData, "/Colour/hasil_online") ? hasil_online = firebaseData.stringData() : Serial.println(firebaseData.errorReason());
 
-          if(Firebase.getString(firebaseData, "/Colour/hasil_online"))
-          {
-            hasil_online = firebaseData.stringData();
-          }else{
-            Serial.println(firebaseData.errorReason());
-          }
+        // printf("\nread_button: %i\n", read_button);
+        // printf("data calibrate: %i\n", data_calibrate);
+        printf("\nGPS >> Lt: %f Lg: %f\n", gpsArray[0], gpsArray[1]);
+        printf("Red: %i Green: %i Blue: %i\n", Red, Green, Blue);
+        // colour_result();
+        String colour_read = String(Red) + "@" + String(Green) + "@" + String(Blue);
+        Firebase.setString(firebaseData, "/Colour/read", colour_read) ? printf("Send data RGB Succes\n") : printf("Failed send data RGB\n");
+        // Firebase.getString(firebaseData, "/Colour/hasil_online") ? hasil_online = firebaseData.stringData() : Serial.println(firebaseData.errorReason());
 
-          //printf("Result ==> %s\n", String(hasil_online));
-          Serial.print("Result ==> ");
-          Serial.println(hasil_online);
-          //lcd.clear();
-          lcd.setCursor(0, 0);
-          lcd.print("  >> " + hasil_online + " <<   ");
-          
-          Firebase.getInt(firebaseData, "/Colour/Calibrate") ? data_calibrate = firebaseData.intData() : Serial.println(firebaseData.errorReason());
+        if (Firebase.getString(firebaseData, "/Colour/hasil_online"))
+        {
+          hasil_online = firebaseData.stringData();
         }
+        else
+        {
+          Serial.println(firebaseData.errorReason());
+        }
+
+        // printf("Result ==> %s\n", String(hasil_online));
+        Serial.print("Result ==> ");
+        Serial.println(hasil_online);
+        // lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("  >> " + hasil_online + " <<   ");
+
+        Firebase.getInt(firebaseData, "/Colour/Calibrate/state") ? data_calibrate = firebaseData.intData() : Serial.println(firebaseData.errorReason());
+      }
 
       if (millis() - prevMillis3 >= 5000)
-        {
-          prevMillis3 = millis();
-          Firebase.setFloat(firebaseData, "/GPS/Latitude", gpsArray[0]) ? printf("Send data Latitude Succes\n") : printf("Failed send data Latitude\n");
-          Firebase.setFloat(firebaseData, "/GPS/Longitude", gpsArray[1]) ? printf("Send data Longitude Succes\n") : printf("Failed send data Longitude\n");
-          Firebase.setFloat(firebaseData, "/GPS/Num_Satelite", gpsArray[2]) ? printf("Send data Satelite Succes\n") : printf("Failed send data Satelite\n");
-        }
-    }else{
+      {
+        prevMillis3 = millis();
+        Firebase.setFloat(firebaseData, "/GPS/Latitude", gpsArray[0]) ? printf("Send data Latitude Succes\n") : printf("Failed send data Latitude\n");
+        Firebase.setFloat(firebaseData, "/GPS/Longitude", gpsArray[1]) ? printf("Send data Longitude Succes\n") : printf("Failed send data Longitude\n");
+        Firebase.setFloat(firebaseData, "/GPS/Num_Satelite", gpsArray[2]) ? printf("Send data Satelite Succes\n") : printf("Failed send data Satelite\n");
+      }
+    }
+    else
+    {
+      printf(">>>>>>>>>>>>>>>>>DEVICE OFFLINE MODE<<<<<<<<<<<<<<<<<<");
 
       if (/*data_calibrate == 1 ||*/ read_button == 1024) // if button pressed
-        {
-          Calibrate();
-        }
+      {
+        Calibrate();
+      }
 
       if (millis() - prevMillis2 >= 2000)
-        {
-          prevMillis2 = millis();
-      
-          //printf("\nread_button: %i\n", read_button);
-          //printf("data calibrate: %i\n", data_calibrate);
-          printf("\nGPS >> Lt: %f Lg: %f\n", gpsArray[0], gpsArray[1]);
-          printf("Red: %i Green: %i Blue: %i\n", Red, Green, Blue);
-          colour_result();
-        }
+      {
+        prevMillis2 = millis();
+
+        // printf("\nread_button: %i\n", read_button);
+        // printf("data calibrate: %i\n", data_calibrate);
+        printf("\nGPS >> Lt: %f Lg: %f\n", gpsArray[0], gpsArray[1]);
+        printf("Red: %i Green: %i Blue: %i\n", Red, Green, Blue);
+        colour_result();
+      }
     }
   }
 }

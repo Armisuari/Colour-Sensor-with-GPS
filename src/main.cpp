@@ -25,8 +25,8 @@ void setup(void)
   mySerial.begin(9600);
   EEPROM.begin(512);
 
-  // lcd.init();
-  lcd.begin();
+  lcd.init();
+  // lcd.begin();
   lcd.backlight();
 
   lcd.setCursor(0, 0);
@@ -97,6 +97,7 @@ void setup(void)
 
     if (online == true)
     {
+      printf(">>>>>>>>>>>>>>>>>DEVICE ONLINE MODE<<<<<<<<<<<<<<<<<<");
 
       if (data_calibrate == 1 || read_button == 1024) // if button pressed
       {
@@ -151,6 +152,7 @@ void setup(void)
     }
     else
     {
+      printf(">>>>>>>>>>>>>>>>>DEVICE OFFLINE MODE<<<<<<<<<<<<<<<<<<");
 
       if (/*data_calibrate == 1 ||*/ read_button == 1024) // if button pressed
       {
