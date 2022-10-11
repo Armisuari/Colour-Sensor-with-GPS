@@ -99,7 +99,7 @@ void setup(void)
 
       while(1)
       {
-        
+        controll.run();
         menu();
         
         if (data_calibrate == 1 || read_button == 1024) // if button pressed
